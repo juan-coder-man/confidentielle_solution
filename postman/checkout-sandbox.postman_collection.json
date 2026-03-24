@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "Checkout sandbox API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Listar productos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/products"
+      }
+    },
+    {
+      "name": "Crear transacción PENDING",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"quantity\": 1,\n  \"customer\": {\n    \"fullName\": \"Cliente Demo\",\n    \"email\": \"cliente@example.com\",\n    \"phone\": \"+573001112233\"\n  },\n  \"delivery\": {\n    \"addressLine\": \"Calle 1 #2-3\",\n    \"city\": \"Bogotá\",\n    \"notes\": \"\"\n  }\n}"
+        },
+        "url": "{{baseUrl}}/transactions"
+      }
+    },
+    {
+      "name": "Obtener transacción",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/transactions/{{transactionId}}"
+      }
+    },
+    {
+      "name": "Pagar (token de tarjeta)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Idempotency-Key", "value": "{{$guid}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"cardToken\": \"{{cardToken}}\"\n}"
+        },
+        "url": "{{baseUrl}}/transactions/{{transactionId}}/pay"
+      }
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" },
+    { "key": "productId", "value": "" },
+    { "key": "transactionId", "value": "" },
+    { "key": "cardToken", "value": "" }
+  ]
+}
